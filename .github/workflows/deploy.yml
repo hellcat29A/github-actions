@@ -37,19 +37,3 @@ jobs:
           NETLIFY_SITE_ID: 3750be94-568c-42d9-ae4d-3392f3d7d1b6
 
         run: npx netlify-cli deploy --prod --dir=dist/apps/app-1
-
-      - name: Deploy app 2 to Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
-          # Add specific site ID for app-2
-          NETLIFY_SITE_ID: your_app_2_site_id
-
-        run: npx netlify-cli deploy --prod --dir=dist/apps/app-2
-
-      - name: Deploy app 3 to Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
-          # Add specific site ID for app-3
-          NETLIFY_SITE_ID: your_app_3_site_id
-
-        run: npx netlify-cli deploy --prod --dir=dist/apps/app-3
