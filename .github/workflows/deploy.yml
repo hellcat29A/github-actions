@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: '18'  # Specify the Node.js version
 
+      - name: Authenticate GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken= 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" > ~/.npmrc
+
       - name: Install dependencies
         run: npm install
 
@@ -27,33 +30,26 @@ jobs:
           npx nx build app-2 --prod
           npx nx build app-3 --prod
 
-      - name: Create or update Netlify sites
+      - name: Deploy app 1 to Netlify
         env:
           NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
-        run: |
-          # Create or update site app-1
-          SITE_ID_APP1=$(curl -s -X POST https://api.netlify.com/api/v1/sites \
-            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"name": "app-1"}' | jq -r '.id')
-          # Create or update site app-2
-          SITE_ID_APP2=$(curl -s -X POST https://api.netlify.com/api/v1/sites \
-            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"name": "app-2"}' | jq -r '.id')
-          # Create or update site app-3
-          SITE_ID_APP3=$(curl -s -X POST https://api.netlify.com/api/v1/sites \
-            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"name": "app-3"}' | jq -r '.id')
-          echo "SITE_ID_APP1=$SITE_ID_APP1" >> $GITHUB_ENV
-          echo "SITE_ID_APP2=$SITE_ID_APP2" >> $GITHUB_ENV
-          echo "SITE_ID_APP3=$SITE_ID_APP3" >> $GITHUB_ENV
+          # Add specific site ID for app-1
+          NETLIFY_SITE_ID: your_app_1_site_id
 
-      - name: Deploy apps to Netlify
+        run: npx netlify-cli deploy --prod --dir=dist/apps/app-1
+
+      - name: Deploy app 2 to Netlify
         env:
           NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
-        run: |
-          npx netlify-cli deploy --prod --dir=dist/apps/app-1 --site ${{ env.SITE_ID_APP1 }}
-          npx netlify-cli deploy --prod --dir=dist/apps/app-2 --site ${{ env.SITE_ID_APP2 }}
-          npx netlify-cli deploy --prod --dir=dist/apps/app-3 --site ${{ env.SITE_ID_APP3 }}
+          # Add specific site ID for app-2
+          NETLIFY_SITE_ID: your_app_2_site_id
+
+        run: npx netlify-cli deploy --prod --dir=dist/apps/app-2
+
+      - name: Deploy app 3 to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
+          # Add specific site ID for app-3
+          NETLIFY_SITE_ID: your_app_3_site_id
+
+        run: npx netlify-cli deploy --prod --dir=dist/apps/app-3
