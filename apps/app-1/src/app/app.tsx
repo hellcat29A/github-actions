@@ -12,6 +12,9 @@ export function App() {
   return (
     <div>
       <NxWelcome title='m'/>
+      <div>
+        <h1>I added this title</h1>
+      </div>
     </div>
   );
 }
