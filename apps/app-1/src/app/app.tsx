@@ -1,6 +1,4 @@
-import { SharedHeader } from '@hellcat29a/shared-header';
 import NxWelcome from './nx-welcome';
-import '@hellcat29a/shared-header/dist/index.css'
 
 import { Route, Routes, Link } from 'react-router-dom';
 const navigation = [
@@ -13,7 +11,7 @@ const navigation = [
 export function App() {
   return (
     <div>
-   <SharedHeader navigation={navigation}/>
+      <NxWelcome title='m'/>
     </div>
   );
 }
