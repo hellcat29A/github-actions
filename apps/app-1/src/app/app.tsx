@@ -11,9 +11,9 @@ const navigation = [
 export function App() {
   return (
     <div>
+        <h1>I added thcccis</h1>
       <NxWelcome title='m'/>
       <div>
-        <h1>I added this</h1>
       </div>
     </div>
   );
