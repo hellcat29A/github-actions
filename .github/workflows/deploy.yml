@@ -30,10 +30,16 @@ jobs:
           npx nx build app-2 --prod
           npx nx build app-3 --prod
 
-      - name: Deploy app 1 to Netlify
+      - name: Deploy app 1 to Netlify (Replace with your site ID)
         env:
           NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
-          # Add specific site ID for app-1
-          NETLIFY_SITE_ID: 3750be94-568c-42d9-ae4d-3392f3d7d1b6
-
+          NETLIFY_SITE_ID: 3750be94-568c-42d9-ae4d-3392f3d7d1b6  # Replace with your app 1 site ID
         run: npx netlify-cli deploy --prod --dir=dist/apps/app-1
+
+      - name: Deploy app 2 to Netlify (Replace with your site ID)
+        env:
+          NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
+          NETLIFY_SITE_ID: your_app_2_site_id  # Replace with your app 2 site ID
+        run: npx netlify-cli deploy --prod --dir=dist/apps/app-2
+
+      # Repeat for app 3 with its specific site ID
