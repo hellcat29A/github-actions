@@ -17,11 +17,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'  # Specify the Node.js version
-      - name: Authenticate GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken= 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" > ~/.npmrc
-
-
-          
 
       - name: Install dependencies
         run: npm install
@@ -29,11 +24,36 @@ jobs:
       - name: Build applications
         run: |
           npx nx build app-1 --prod
+          npx nx build app-2 --prod
+          npx nx build app-3 --prod
 
-      - name: Deploy app 1 to Netlify
+      - name: Create or update Netlify sites
         env:
           NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
-          NETLIFY_SITE_ID: ojjc61XM-WfNtlsXPMaMFRxqLBFyo2GgP0MaumLKLZc
-
         run: |
-          npx netlify-cli deploy --prod --dir=dist/apps/app-1
+          # Create or update site app-1
+          SITE_ID_APP1=$(curl -s -X POST https://api.netlify.com/api/v1/sites \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name": "app-1"}' | jq -r '.id')
+          # Create or update site app-2
+          SITE_ID_APP2=$(curl -s -X POST https://api.netlify.com/api/v1/sites \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name": "app-2"}' | jq -r '.id')
+          # Create or update site app-3
+          SITE_ID_APP3=$(curl -s -X POST https://api.netlify.com/api/v1/sites \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name": "app-3"}' | jq -r '.id')
+          echo "SITE_ID_APP1=$SITE_ID_APP1" >> $GITHUB_ENV
+          echo "SITE_ID_APP2=$SITE_ID_APP2" >> $GITHUB_ENV
+          echo "SITE_ID_APP3=$SITE_ID_APP3" >> $GITHUB_ENV
+
+      - name: Deploy apps to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
+        run: |
+          npx netlify-cli deploy --prod --dir=dist/apps/app-1 --site ${{ env.SITE_ID_APP1 }}
+          npx netlify-cli deploy --prod --dir=dist/apps/app-2 --site ${{ env.SITE_ID_APP2 }}
+          npx netlify-cli deploy --prod --dir=dist/apps/app-3 --site ${{ env.SITE_ID_APP3 }}
