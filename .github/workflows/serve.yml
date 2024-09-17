@@ -1,12 +1,12 @@
-name: Serve React Apps Locally
+name: Build and Test React Apps
 
 on:
   push:
     branches:
-      - main  # Adjust this to your desired branch
+      - main
 
 jobs:
-  serve-apps:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,8 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Serve all apps concurrently
+      - name: Build all apps
         run: |
-          npx nx serve app-1 & \
-          npx nx serve app-2 & \
-          npx nx serve app-3
+          npx nx build app-1
+          npx nx build app-2
+          npx nx build app-3
+
+      - name: Run tests
+        run: |
+          npx nx test app-1
+          npx nx test app-2
+          npx nx test app-3
