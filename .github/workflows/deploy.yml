@@ -34,7 +34,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
           # Add specific site ID for app-1
-          NETLIFY_SITE_ID: your_app_1_site_id
+          NETLIFY_SITE_ID: 3750be94-568c-42d9-ae4d-3392f3d7d1b6
 
         run: npx netlify-cli deploy --prod --dir=dist/apps/app-1
 
