@@ -30,11 +30,10 @@ jobs:
         run: |
           npx nx build app-1 --prod
 
-      - name: Deploy to Netlify
+      - name: Deploy app 1 to Netlify
         env:
           NETLIFY_AUTH_TOKEN: nfp_Ur4TdsEK3BXJL7izx8UaQLJotCzdExUn7658
           NETLIFY_SITE_ID: ojjc61XM-WfNtlsXPMaMFRxqLBFyo2GgP0MaumLKLZc
 
         run: |
           npx netlify-cli deploy --prod --dir=dist/apps/app-1
-
