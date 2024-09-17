@@ -23,6 +23,6 @@ jobs:
 
       - name: Serve all apps concurrently
         run: |
-          npx nx serve app1 & \
-          npx nx serve app2 & \
-          npx nx serve app3
+          npx nx serve app-1 & \
+          npx nx serve app-2 & \
+          npx nx serve app-3
